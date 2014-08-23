@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<folders>
+    <folder>
+        <title>Control-Your-JVM</title>
+        <snippets>
+            <snippet>
+                <title>Run demo 1</title>
+                <content>docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:1</content>
+            </snippet>
+            <snippet>
+                <title>Run demo 2</title>
+                <content>docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:2</content>
+            </snippet>
+            <snippet>
+                <title>Run demo 3</title>
+                <content>docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:3</content>
+            </snippet>
+            <snippet>
+                <title>Run demo 4</title>
+                <content>docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4</content>
+            </snippet>
+            <snippet>
+                <title>vmstat</title>
+                <content>vmstat -a -S M 2 10</content>
+            </snippet>
+            <snippet>
+                <title>iostat</title>
+                <content>iostat -x 2 10</content>
+            </snippet>
+            <snippet>
+                <title>netstat</title>
+                <content>netstat -c</content>
+            </snippet>
+            <snippet>
+                <title>jps (remote)</title>
+                <content>jps -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false 192.168.59.103</content>
+            </snippet>
+            <snippet>
+                <title>docker ps</title>
+                <content>docker ps</content>
+            </snippet>
+            <snippet>
+                <title>docker-enter</title>
+                <content>docker-enter</content>
+            </snippet>
+            <snippet>
+                <title>jinfo (remote)</title>
+                <content>jinfo -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false 192.168.59.103</content>
+            </snippet>
+            <snippet>
+                <title>jinfo check Unlock CommercialFeatures</title>
+                <content>jinfo -flag UnlockCommercialFeatures</content>
+            </snippet>
+            <snippet>
+                <title>jinfo set UnlockCommercialFeatures</title>
+                <content>jinfo -flag +UnlockCommercialFeatures</content>
+            </snippet>
+            <snippet>
+                <title>jinfo set FlightRecorder</title>
+                <content>jinfo -flag +FlightRecorder</content>
+            </snippet>
+            <snippet>
+                <title>jinfo check FlightRecorder</title>
+                <content>jinfo -flag FlightRecorder</content>
+            </snippet>
+            <snippet>
+                <title>Get all manageable flags</title>
+                <content>java -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal -version | grep manageable</content>
+            </snippet>
+            <snippet>
+                <title>jstat (remote)</title>
+                <content>jstat -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false -gc &lt;vmid&gt;@192.168.59.103 5s 10</content>
+            </snippet>
+            <snippet>
+                <title>OQL - 1</title>
+                <content>select file.path.value.toString() from java.io.File file</content>
+            </snippet>
+            <snippet>
+                <title>OQL - 2</title>
+                <content>select referrers(v) from org.hibernate.validator.HibernateValidator v</content>
+            </snippet>
+            <snippet>
+                <title>OQL - 3</title>
+                <content>select root(v) from org.hibernate.validator.HibernateValidator v</content>
+            </snippet>
+            <snippet>
+                <title>Start Wildlfy (leaking)</title>
+                <content>docker run -it -p 1099:1099 -p 7000:7000 -p 7091:7091 -p 8180:8180 -p 10090:10090 -p 10099:10099 --volumes-from my-data control_your_jvm/wildfly-8.1.0.final:leaking</content>
+            </snippet>
+            <snippet>
+                <title>Start Wildfly (non leaking)</title>
+                <content>docker run -it -p 1099:1099 -p 7000:7000 -p 7091:7091 -p 8180:8180 -p 10090:10090 -p 10099:10099 --volumes-from my-data control_your_jvm/wildfly-8.1.0.final:non-leaking</content>
+            </snippet>
+            <snippet>
+                <title>Kitchensink (reploy)</title>
+                <content>./kitchensink-control.sh redeploy 3</content>
+            </snippet>
+            <snippet>
+                <title>Wildfly Welcome Screen</title>
+                <content>open -a Google\ Chrome http://192.168.59.103:8180</content>
+            </snippet>
+            <snippet>
+                <title>Wildfly Admin Console</title>
+                <content>open -a Google\ Chrome http://192.168.59.103:10090</content>
+            </snippet>
+            <snippet>
+                <title>Kitchensink</title>
+                <content>open -a Google\ Chrome http://192.168.59.103:8180/wildfly-kitchensink
+</content>
+            </snippet>
+            <snippet>
+                <title>jmap</title>
+                <content>jmap -F -dump:format=b,file=heap.bin</content>
+            </snippet>
+            <snippet>
+                <title>Start FR (jcmd)</title>
+                <content>jcmd &lt;pid&gt; JFR.start name=WildflyJFRRecording settings=default</content>
+            </snippet>
+        </snippets>
+    </folder>
+</folders>

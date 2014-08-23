@@ -1,0 +1,116 @@
+diff --git a/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/IMember.java b/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/IMember.java
+new file mode 100644
+index 0000000..092044e
+--- /dev/null
++++ b/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/IMember.java
+@@ -0,0 +1,38 @@
++// $Id:$
++package org.jboss.as.quickstarts.kitchensink.model;
++
++import javax.persistence.Column;
++import javax.validation.constraints.Digits;
++import javax.validation.constraints.NotNull;
++import javax.validation.constraints.Pattern;
++import javax.validation.constraints.Size;
++
++import org.hibernate.validator.constraints.Email;
++import org.hibernate.validator.constraints.NotEmpty;
++
++/**
++ * @author Hardy Ferentschik
++ */
++public interface IMember {
++	@NotNull
++	@Size(min = 1, max = 25)
++	@Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
++	String getName();
++
++	void setName(String name);
++
++	@NotNull
++	@NotEmpty
++	@Email
++	String getEmail();
++
++	void setEmail(String email);
++
++	@NotNull
++	@Size(min = 10, max = 12)
++	@Digits(fraction = 0, integer = 12)
++	@Column(name = "phone_number")
++	String getPhoneNumber();
++
++	void setPhoneNumber(String phoneNumber);
++}
+diff --git a/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java b/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java
+index 66daff2..eb637bf 100644
+--- a/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java
++++ b/kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java
+@@ -37,26 +37,14 @@ import org.hibernate.validator.constraints.NotEmpty;
+ @Entity
+ @XmlRootElement
+ @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+-public class Member implements Serializable {
++public class Member implements Serializable, IMember {
+ 
+     @Id
+     @GeneratedValue
+     private Long id;
+ 
+-    @NotNull
+-    @Size(min = 1, max = 25)
+-    @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
+     private String name;
+-
+-    @NotNull
+-    @NotEmpty
+-    @Email
+     private String email;
+-
+-    @NotNull
+-    @Size(min = 10, max = 12)
+-    @Digits(fraction = 0, integer = 12)
+-    @Column(name = "phone_number")
+     private String phoneNumber;
+ 
+     public Long getId() {
+@@ -67,27 +55,33 @@ public class Member implements Serializable {
+         this.id = id;
+     }
+ 
+-    public String getName() {
++    @Override
++	public String getName() {
+         return name;
+     }
+ 
+-    public void setName(String name) {
++    @Override
++	public void setName(String name) {
+         this.name = name;
+     }
+ 
+-    public String getEmail() {
++    @Override
++	public String getEmail() {
+         return email;
+     }
+ 
+-    public void setEmail(String email) {
++    @Override
++	public void setEmail(String email) {
+         this.email = email;
+     }
+ 
+-    public String getPhoneNumber() {
++    @Override
++	public String getPhoneNumber() {
+         return phoneNumber;
+     }
+ 
+-    public void setPhoneNumber(String phoneNumber) {
++    @Override
++	public void setPhoneNumber(String phoneNumber) {
+         this.phoneNumber = phoneNumber;
+     }
+ }
