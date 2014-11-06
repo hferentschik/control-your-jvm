@@ -20,8 +20,16 @@
                 <content>docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4</content>
             </snippet>
             <snippet>
+                <title>docker ps</title>
+                <content>docker ps | awk '{printf "%12s %30s\n", $1, $2}'</content>
+            </snippet>
+            <snippet>
                 <title>vmstat</title>
-                <content>vmstat -a -S M 2 10</content>
+                <content>vmstat -S M 2 10</content>
+            </snippet>
+            <snippet>
+                <title>dd</title>
+                <content>dd if=/dev/urandom of=500MBfile bs=1M count=500 &amp;</content>
             </snippet>
             <snippet>
                 <title>iostat</title>
@@ -34,10 +42,6 @@
             <snippet>
                 <title>jps (remote)</title>
                 <content>jps -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false 192.168.59.103</content>
-            </snippet>
-            <snippet>
-                <title>docker ps</title>
-                <content>docker ps</content>
             </snippet>
             <snippet>
                 <title>docker-enter</title>
@@ -70,6 +74,14 @@
             <snippet>
                 <title>jstat (remote)</title>
                 <content>jstat -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false -gc &lt;vmid&gt;@192.168.59.103 5s 10</content>
+            </snippet>
+            <snippet>
+                <title>jstat-first-half</title>
+                <content>jstat -gc 10 2 5 | awk '{printf ("%7s %7s %7s %7s %7s %7s %7s %7s %7s %7s %7s %7s\n", $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)}'</content>
+            </snippet>
+            <snippet>
+                <title>jstat-second-half</title>
+                <content>jstat -gc 10 2 5 | awk '{printf ("%7s %7s %7s %7s %7s\n", $13, $14, $15, $16, $17)}'</content>
             </snippet>
             <snippet>
                 <title>OQL - 1</title>
