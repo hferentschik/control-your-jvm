@@ -1,9 +1,10 @@
 # Demo manuscript
 
-* [jps, jinfo, jstat](#jps--jinfo--jstat)
+* [jps, jinfo](#jps--jinfo)
 * [jstack, jcmd](#jstack--jcmd)
+* [jstat](#jstat)
 * [jmap, jhat](#jmap--jhat)
-* [Mission Control](#mission-control)
+* [Mission Control & Flight Recorder](#mission-control)
 
 ---
 
@@ -28,7 +29,7 @@ Note:
 
 --
 
-## jps, jinfo, jstat
+## jps, jinfo
 
 Using Java 8
 
@@ -75,60 +76,9 @@ Using Java 8
    # jinfo -flag FlightRecorder <vmid>
    ```
 
-1. Start demo program 4
-
-   ```
-   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4
-   ```
-
-1. Demo jstat
-
-   ```
-   # jstat -options
-   # jstat -gc <vmid> 5s 10
-
-   ; (optional) remote jstat
-   > jstat -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false -gc <vmid>@192.168.59.103 5s 10
-   ```
-
-   Discuss output. Talk about occuring garbage collections. Demo 4 shows constant garbage collections.
-
-1. Start demo program 1 via Docker and run jstat
-
-   ```
-   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:1
-   > docker ps
-   > docker-enter <docker-id>
-   # jps
-   # jstat -gc <vmid> 5s 10
-   ```
-
-   Compare result with previous demo. No garbage collections, but app is still busy as `top` shows.
-
-### Garbage-collected heap statistics.
-
-| Code  | Description                                           |
-| ------| ------------------------------------------------------|
-| S0C   | Current survivor space 0 capacity (KB).               |
-| S1C   | Current survivor space 1 capacity (KB).               |
-| S0U   | Survivor space 0 utilization (KB).                    |
-| S1U   | Survivor space 1 utilization (KB).                    |
-| EC    | Current eden space capacity (KB).                     |
-| EU    | Eden space utilization (KB).                          |
-| OC    | Current old space capacity (KB).                      |
-| OU    | Old space utilization (KB).                           |
-| MC    | Metaspace capacity (KB).                              |
-| MU    | Metacspace utilization (KB).                          |
-| YGC   | Number of young generation garbage collection events. |
-| YGCT  | Young generation garbage collection time.             |
-| FGC   | Number of full GC events.                             |
-| FGCT  | Full garbage collection time.                         |
-| GCT   | Total garbage collection time.                        |
-
-
 ## jstack, jcmd
 
-1. Demo creating thread dump using jstack
+1. Demo creating thread dumps using jstack and jcmd
 
    ```
    > docker run -t -i control_your_jvm/demo:3
@@ -156,6 +106,47 @@ Using Java 8
   > ctrl-\
   > kill - QUIT <pid>
   ```
+
+## jstat
+
+1. Start demo program 4
+
+   ```
+   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4
+   ```
+
+1. Demo jstat
+
+   ```
+   # jstat -options
+   # jstat -gc <vmid> 5s 10
+
+   ; (optional) remote jstat
+   > jstat -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false -gc <vmid>@192.168.59.103 5s 10
+   ```
+
+   Discuss output. Talk about occuring garbage collections. Demo 4 shows constant garbage collections.
+   (optional) Run jstat against Demo 1.
+
+### Garbage-collected heap statistics.
+
+| Code  | Description                                           |
+| ------| ------------------------------------------------------|
+| S0C   | Current survivor space 0 capacity (KB).               |
+| S1C   | Current survivor space 1 capacity (KB).               |
+| S0U   | Survivor space 0 utilization (KB).                    |
+| S1U   | Survivor space 1 utilization (KB).                    |
+| EC    | Current eden space capacity (KB).                     |
+| EU    | Eden space utilization (KB).                          |
+| OC    | Current old space capacity (KB).                      |
+| OU    | Old space utilization (KB).                           |
+| MC    | Metaspace capacity (KB).                              |
+| MU    | Metacspace utilization (KB).                          |
+| YGC   | Number of young generation garbage collection events. |
+| YGCT  | Young generation garbage collection time.             |
+| FGC   | Number of full GC events.                             |
+| FGCT  | Full garbage collection time.                         |
+| GCT   | Total garbage collection time.                        |
 
 ## jmap / jhat
 
