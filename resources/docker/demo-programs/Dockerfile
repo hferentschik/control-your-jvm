@@ -9,7 +9,7 @@ RUN        echo debconf shared/accepted-oracle-license-v1-1 select true | debcon
            apt-get update && \
            apt-get install -y oracle-java8-installer
 
-# Install supervisor to allow starting mutliple processes
+# Install supervisor to allow start/manage mutliple processes (http://supervisord.org/)
 RUN        apt-get -y install supervisor && \
            mkdir -p /var/log/supervisor && \
            mkdir -p /etc/supervisor/conf.d
@@ -32,6 +32,7 @@ RUN        apt-get install -y strace
 # Add the java-rmi.cgi script in order to proxy RMI calls (RMI opens next to the main
 # registry port 1099 dynamic ports for client/server commuication. This needs to be proxied,
 # since Docker does not allow to expose a port range)
+# Note: As of Java 8 HTTP RMI proxying is actually deprecated! Use this just for demo purposes.
 ADD        etc/java/java-rmi.cgi /usr/lib/cgi-bin/java-rmi.cgi
 RUN        chmod 755 /usr/lib/cgi-bin/java-rmi.cgi
 
@@ -44,13 +45,14 @@ ADD 	    src /demo
 # Compile the demo
 RUN 	    cd /demo; javac Demo.java;
 
-
+# Make /demo the default directory
 WORKDIR     /demo
 
 # Expose the default Java RMI port
 EXPOSE      1099
 
-# default command
+# At start run the supervisor daemon
+# Use -n to run supervisord in the foreground to avoid the Docker container to exit
 CMD []
 ENTRYPOINT  ["supervisord", "-n", "-c", "/etc/supervisor.conf"]
 

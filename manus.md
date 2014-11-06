@@ -11,7 +11,7 @@ _The examples assume that your docker host is reachable under the IP 192.168.59.
 be changed in case your Docker host as a different IP!_
 
 Commands are default Java command line tool commands or docker commands, except `docker-enter`.
-The latter is a shortcut for the following
+The latter is a bash function defined as:
 (see also [docker-enter](https://github.com/jpetazzo/nsenter/blob/master/docker-enter)):
 
 ```
@@ -21,27 +21,40 @@ function docker-enter() {
 }
 ```
 
----
+Note:
+* Lines beginning with '>' are executed on the host machines
+* Lines beginning with '#' are run inthe Docker container
+* and lines with ';' are comment lines
+
+--
 
 ## jps, jinfo, jstat
 
 Using Java 8
 
-1. Start demo program 4
+1. Start demo program 1
 
    ```
-   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4
+   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:1
    ```
 
 1. Demo jps
 
    ```
    > docker ps
+   ; to just display the important columns in case the output wraps
+   docker ps | awk '{printf "%12s %30s\n", $1, $2}'
+
    > docker-enter <docker-id>
+   ; discuss system view
+   # top
+   # vmstat -a -S M 2 1
+
+   ; difference jps vs jps -lmv
    # jps
    # jps -lvm
 
-   ; alterntively jps remote
+   ; (optional) jps remote from host to Docker container
    > jps -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false 192.168.59.103
    ```
 
@@ -49,9 +62,6 @@ Using Java 8
 
    ```
    # jinfo <vmid>
-   # jinfo -flag UnlockCommercialFeatures <vmid>
-   # jinfo -flag +UnlockCommercialFeatures <vmid>
-   # jinfo -flag UnlockCommercialFeatures <vmid>
    ```
 
 1. (optional) Demo the setting of manageable flags. First we check whether commercial features flag is set,
@@ -65,13 +75,19 @@ Using Java 8
    # jinfo -flag FlightRecorder <vmid>
    ```
 
+1. Start demo program 4
+
+   ```
+   > docker run -p 1099:1099 -p 80:80 -t -i control_your_jvm/demo:4
+   ```
+
 1. Demo jstat
 
    ```
    # jstat -options
    # jstat -gc <vmid> 5s 10
 
-   ; optional remote jstat
+   ; (optional) remote jstat
    > jstat -J-Dhttp.proxyHost=192.168.59.103 -J-Djava.rmi.server.disableHttp=false -gc <vmid>@192.168.59.103 5s 10
    ```
 
@@ -118,12 +134,15 @@ Using Java 8
    > docker run -t -i control_your_jvm/demo:3
    > docker ps
    > docker-enter <container-id>
+
    ; use jcmd without options as alternative to jps
    # jcmd
+
+   ; two ways to create a thread dump
    # jcmd <vmid> Thread.print
    # jstack <vmid>
 
-   ; optional - demo how jcmd can be used with a main class argument targeting mutliple VMs
+   ; (optional) demo how jcmd can be used with a main class argument targeting mutliple VMs
    ; start a second Demo program
    # cd /demo
    # java -cp . Demo 3 &

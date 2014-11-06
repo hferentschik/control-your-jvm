@@ -58,7 +58,7 @@ public class Demo {
 	}
 
 	/**
-	 * File system scanning. A lot of kernel/system time.
+	 * File system scanning. Creates a lot of kernel/system time usage.
 	 */
 	public static class Demo2 {
 		// Default file root for find demo
@@ -117,7 +117,8 @@ public class Demo {
 	}
 
 	/**
-	 * Concurrent program with deadlock
+	 * Concurrent program with forced deadlock. Can be used to demonstrate deadlock detection
+	 * via jstack.
 	 */
 	public static class Demo3 {
 		private final CountDownLatch startSignal = new CountDownLatch( 1 );
@@ -195,7 +196,7 @@ public class Demo {
 	}
 
 	/**
-	 * Heap allocation example.
+	 * Heap allocation example. Used for demoing jstat.
 	 */
 	public static class Demo4 {
 		private static final Random random = new Random();

@@ -3,6 +3,14 @@
 This page contains several links related to the various Java command lines tools. Some of the
 information made it into the presentation others is listed for reference.
 
+## top
+
+* [Linux top column definitions](http://unix.stackexchange.com/questions/18918/in-linux-top-command-what-are-us-sy-ni-id-wa-hi-si-and-st-for-cpu-usage)
+
+## vmstat
+
+* [How to use vmstat](http://www.thomas-krenn.com/en/wiki/Linux_Performance_Measurements_using_vmstat)
+
 ## jps
 
 * [jps cannot connect to remote jstad due to port issues](http://stackoverflow.com/questions/4865650/jps-cant-connect-to-a-remote-jstatd)
